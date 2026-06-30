@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Love Yasna 💙</title>
+
+<style>
+body{
+  margin:0;
+  background:#05060c;
+  font-family:Arial;
+  color:#7ecbff;
+  overflow:hidden;
+}
+
+.title{
+  text-align:center;
+  font-size:40px;
+  margin-top:80px;
+}
+
+.text{
+  text-align:center;
+  font-size:26px;
+  margin-top:40px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="title">LOVE YASNA 💙</div>
+<div class="text" id="txt"></div>
+
+<script>
+let text="I LOVE YOU YASNA 💙";
+let i=0;
+
+function type(){
+  if(i<text.length){
+    document.getElementById("txt").innerHTML+=text[i];
+    i++;
+    setTimeout(type,120);
+  }
+}
+type();
+</script>
+
+</body>
+</html>
