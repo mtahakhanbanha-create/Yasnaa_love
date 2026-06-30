@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>LOVE YASNA 💙</title>
+
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    background: #05060c;
+    font-family: Arial;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#title {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 40%;
+    color: #7cc8ff;
+    font-size: 45px;
+    text-shadow: 0 0 10px #7cc8ff;
+}
+
+#sub {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 55%;
+    color: #7cc8ff;
+    font-size: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="c"></canvas>
+
+<div id="title">LOVE YASNA 💙</div>
+<div id="sub">Tap Anywhere 💙</div>
+
+<script>
+const canvas = document.getElementById("c");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let started = false;
+let t = 0;
+
+let stars = [];
+for(let i=0;i<200;i++){
+    stars.push({
+        x: Math.random()*canvas.width,
+        y: Math.random()*canvas.height,
+        s: Math.random()*2 + 0.5
+    });
+}
+
+let rain = [];
+let messages = [
+    "I Love You Yasna 💙",
+    "Forever 💙",
+    "Only You 💙",
+    "My Universe 🌌",
+    "Miss You 😢"
+];
+
+// 💙 heart function (same vibe as pygame)
+function drawHeart(x,y,size,pulse){
+    ctx.fillStyle = "#ff6eb4";
+
+    ctx.beginPath();
+    for(let a=0;a<Math.PI*2;a+=0.05){
+        let px = 16*Math.pow(Math.sin(a),3);
+        let py = 13*Math.cos(a)-5*Math.cos(2*a)-2*Math.cos(3*a)-Math.cos(4*a);
+
+        ctx.lineTo(x + px*(size+pulse), y - py*(size+pulse));
+    }
+    ctx.fill();
+}
+
+function animate(){
+    ctx.fillStyle = "#05060c";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    t++;
+
+    // 🌌 stars
+    ctx.fillStyle = "white";
+    for(let s of stars){
+        s.y += 0.7;
+        if(s.y > canvas.height){
+            s.y = 0;
+            s.x = Math.random()*canvas.width;
+        }
+        ctx.fillRect(s.x,s.y,s.s,s.s);
+    }
+
+    if(!started){
+        document.getElementById("title").style.display = "block";
+        document.getElementById("sub").style.display = "block";
+    } else {
+        document.getElementById("title").style.display = "none";
+        document.getElementById("sub").style.display = "none";
+
+        // 🌧 rain messages
+        if(rain.length < 25 && Math.random() < 0.15){
+            rain.push({
+                x: Math.random()*canvas.width,
+                y: -20,
+                text: messages[Math.floor(Math.random()*messages.length)],
+                speed: Math.random()*2 + 2
+            });
+        }
+
+        ctx.fillStyle = "#7cc8ff";
+        ctx.font = "20px Arial";
+
+        for(let r of rain){
+            ctx.fillText(r.text, r.x, r.y);
+            r.y += r.speed;
+        }
+
+        rain = rain.filter(r => r.y < canvas.height);
+    }
+
+    // 💬 floating text
+    let wave = Math.sin(t*0.03)*20;
+    ctx.fillStyle = "#7cc8ff";
+    ctx.font = "30px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText("I LOVE YOU YASNA 💙", canvas.width/2, 80 + wave);
+
+    // 💙 heart
+    let pulse = Math.sin(t*0.05)*2 + 12;
+    drawHeart(canvas.width/2, canvas.height/2, 10, pulse);
+
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener("click", ()=> {
+    started = true;
+});
+</script>
+
+</body>
+  </html>
